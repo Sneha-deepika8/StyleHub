@@ -1,7 +1,7 @@
 import ProductCard from "./components/ProductCard";
 import products from "./data";
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
   //BRANDS
@@ -20,14 +20,27 @@ function App() {
   // Brand Filter - which brand is selected ('All' means show all)
   const [selectedBrand, setSelectedBrand] = useState("All");
 
+  // Category Filter - which category is selected ('All' means show all)
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
   // Sort - how to sort products
   const [sortBy, setSortBy] = useState("default");
 
-  // NEW: Dark Mode Toggle
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  // Theme Mode - Load from localStorage or default to light
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedTheme = localStorage.getItem("theme");
+    return savedTheme === "dark";
+  });
 
   // NEW: Cart Sidebar Toggle
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  // Save theme to localStorage and apply to document
+  useEffect(() => {
+    const theme = isDarkMode ? "dark" : "light";
+    localStorage.setItem("theme", theme);
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [isDarkMode]);
 
   function addToCart(product) {
     //Check if Cart Item Exists
@@ -90,7 +103,7 @@ function App() {
     }
   }
 
-  //STEP 1 : FILTER BASED ON SEARCH AND BRAND
+  //STEP 1 : FILTER BASED ON SEARCH, BRAND, AND CATEGORY
 
   let filteredProducts = products.filter((product) => {
     const searchLower = searchTerm.toLowerCase();
@@ -101,7 +114,10 @@ function App() {
     const matchesBrand =
       selectedBrand === "All" || product.brand === selectedBrand;
 
-    return matchesSearch && matchesBrand;
+    const matchesCategory =
+      selectedCategory === "All" || product.category === selectedCategory;
+
+    return matchesSearch && matchesBrand && matchesCategory;
   });
 
   //STEP 2 : SORT BASED ON FILTERED PRODUCTS
@@ -122,28 +138,28 @@ function App() {
         <div className="nav-container">
           <a href="/" className="logo">
             <span className="logo-icon">◆</span>
-            TechMart
+            StyleHub
           </a>
 
           <ul className="nav-links">
             <li>
               <a href="#" className="nav-link">
-                Products
+                Collections
               </a>
             </li>
             <li>
               <a href="#" className="nav-link">
-                Deals
+                Trending Styles
               </a>
             </li>
             <li>
               <a href="#" className="nav-link">
-                Support
+                Customer Care
               </a>
             </li>
             <li>
               <a href="#" className="nav-link">
-                About
+                Our Story
               </a>
             </li>
           </ul>
@@ -270,19 +286,20 @@ function App() {
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-content">
-          <p className="hero-tag">New Arrivals 2025</p>
+          <p className="hero-tag">New Arrivals 2026</p>
           <h1 className="hero-title">
-            The Future of Tech
+            The Future of Fashion
             <br />
-            <span className="hero-highlight">Is Here.</span>
+            <span className="hero-highlight">Starts Here.</span>
           </h1>
           <p className="hero-description">
-            Discover the latest in premium technology. From powerful computers
-            to cutting-edge smartphones, find everything you need in one place.
+            Discover the latest trends in fashion and style. From stylish
+            outfits to premium accessories, find everything you need to upgrade
+            your wardrobe in one place.
           </p>
           <div className="hero-cta">
-            <button className="btn-primary">Explore Products</button>
-            <button className="btn-secondary">Learn More</button>
+            <button className="btn-primary">Shop Now</button>
+            <button className="btn-secondary">View Collections</button>
           </div>
         </div>
         <div className="hero-stats">
@@ -292,7 +309,7 @@ function App() {
           </div>
           <div className="stat">
             <span className="stat-number">200+</span>
-            <span className="stat-label">Premium Products</span>
+            <span className="stat-label">Fashion Products</span>
           </div>
           <div className="stat">
             <span className="stat-number">24/7</span>
@@ -321,10 +338,37 @@ function App() {
       <section className="products-section" id="products">
         <div className="section-header">
           <h2 className="section-title">Best Sellers</h2>
-          <p className="section-subtitle">
-            Our most popular products loved by customers
-          </p>
+          <p className="section-subtitle">Trending Styles Loved by Customers</p>
         </div>
+
+        {/* Category Filter Buttons */}
+        <div className="category-filters">
+          <button
+            className={`category-btn ${selectedCategory === "All" ? "active" : ""}`}
+            onClick={() => setSelectedCategory("All")}
+          >
+            All Products
+          </button>
+          <button
+            className={`category-btn ${selectedCategory === "Women" ? "active" : ""}`}
+            onClick={() => setSelectedCategory("Women")}
+          >
+            👗 Women
+          </button>
+          <button
+            className={`category-btn ${selectedCategory === "Men" ? "active" : ""}`}
+            onClick={() => setSelectedCategory("Men")}
+          >
+            👔 Men
+          </button>
+          <button
+            className={`category-btn ${selectedCategory === "Kids" ? "active" : ""}`}
+            onClick={() => setSelectedCategory("Kids")}
+          >
+            🧸 Kids
+          </button>
+        </div>
+
         {/* Search and Filter Controls */}
         <div className="filter-controls">
           {/* Search Box */}
@@ -350,7 +394,7 @@ function App() {
             onChange={(e) => setSelectedBrand(e.target.value)}
             className="filter-select"
           >
-            <option value="All">All Brands</option>
+            <option value="All">All Collections</option>
             {allBrands.map((brand) => (
               <option key={brand} value={brand}>
                 {brand}
@@ -375,7 +419,8 @@ function App() {
         <p className="results-count">
           Showing {filteredProducts.length} of {products.length} products
           {searchTerm && ` for "${searchTerm}"`}
-          {selectedBrand !== "All" && ` in ${selectedBrand}`}
+          {selectedCategory !== "All" && ` in ${selectedCategory}`}
+          {selectedBrand !== "All" && ` from ${selectedBrand}`}
         </p>
         <div className="product-grid">
           {filteredProducts.length > 0 ? (
@@ -384,6 +429,7 @@ function App() {
                 key={product.id}
                 id={product.id}
                 name={product.name}
+                category={product.category}
                 price={product.price}
                 originalPrice={product.originalPrice}
                 discount={product.discount}
@@ -397,11 +443,12 @@ function App() {
             ))
           ) : (
             <div className="no-results">
-              <p>😕 No products found</p>
+              <p>😕 No Collection found</p>
               <button
                 onClick={() => {
                   setSearchTerm("");
                   setSelectedBrand("All");
+                  setSelectedCategory("All");
                 }}
               >
                 Clear Filters
@@ -413,7 +460,7 @@ function App() {
 
       {/* Footer */}
       <footer className="footer">
-        <p>&copy; 2025 TechStore. All rights reserved.</p>
+        <p>&copy; 2025 StyleHub. All rights reserved.</p>
       </footer>
     </div>
   );

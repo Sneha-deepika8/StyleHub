@@ -1,72 +1,50 @@
 /* ========================================
-   🛒 PRODUCT CARD - Premium Design
+   🛒 PRODUCT CARD - Dark/Light Mode
    ======================================== */
 
 .product-card {
   position: relative;
-  background: #111111;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
-  padding: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+
   transition: all 0.3s ease;
   overflow: hidden;
-}
-
-/* Hover Glow Effect */
-.product-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: 20px;
-  background: radial-gradient(
-    ellipse at 50% 0%,
-    rgba(0, 113, 227, 0.1) 0%,
-    transparent 70%
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
+  box-shadow: var(--shadow-sm);
 }
 
 .product-card:hover {
   transform: translateY(-8px);
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: var(--accent);
   box-shadow:
-    0 20px 50px rgba(0, 0, 0, 0.5),
-    0 0 40px rgba(0, 113, 227, 0.1);
-}
-
-.product-card:hover::before {
-  opacity: 1;
+    0 12px 32px var(--accent-glow),
+    var(--shadow-md);
 }
 
 /* Discount Badge */
 .discount-badge {
   position: absolute;
-  top: 20px;
-  left: 20px;
-  background: linear-gradient(135deg, #0071e3, #00a3ff);
+  top: 16px;
+  left: 16px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
   color: white;
-  padding: 8px 14px;
+  padding: 6px 12px;
   border-radius: 8px;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   z-index: 2;
-  box-shadow: 0 4px 12px rgba(0, 113, 227, 0.3);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
 /* Wishlist Button */
 .wishlisted {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  top: 16px;
+  right: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -77,50 +55,35 @@
   align-items: center;
   justify-content: center;
   transition: all 0.25s ease;
+  box-shadow: var(--shadow-sm);
 }
 
 .wishlisted:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--bg-secondary);
+  border-color: var(--accent);
   transform: scale(1.1);
 }
 
 .wishlisted.active {
-  background: rgba(239, 68, 68, 0.2);
-  border-color: rgba(239, 68, 68, 0.4);
+  background: #fef2f2;
+  border-color: #ef4444;
+  color: #ef4444;
 }
 
 /* Image Container */
 .image-container {
-  background: linear-gradient(180deg, #1a1a1a 0%, #111111 100%);
-  border-radius: 16px;
-  padding: 32px;
-  margin-bottom: 20px;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 200px;
   position: relative;
   overflow: hidden;
-}
-
-/* Subtle Grid Pattern */
-.image-container::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 20px 20px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.product-card:hover .image-container::before {
-  opacity: 1;
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
 }
 
 .product-image {
@@ -129,20 +92,35 @@
   object-fit: contain;
   transition: transform 0.4s ease;
   position: relative;
-  z-index: 100;
+  z-index: 1;
 }
 
 .product-card:hover .product-image {
-  transform: scale(1.2);
+  transform: scale(1.15);
 }
 
 /* Card Content */
 .card-content {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   position: relative;
   z-index: 1;
+}
+
+/* Category Badge */
+.category-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  width: fit-content;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
 }
 
 /* Product Name */
@@ -161,7 +139,7 @@
 }
 
 .product-card:hover .product-name {
-  color: var(--text-primary);
+  color: var(--accent);
 }
 
 /* Rating */
@@ -173,7 +151,7 @@
 }
 
 .stars {
-  color: #fbbf24;
+  color: #f59e0b;
   font-size: 0.8rem;
   letter-spacing: 2px;
 }
@@ -185,14 +163,21 @@
 }
 
 .bestseller-tag {
-  background: rgba(34, 197, 94, 0.12);
-  color: #22c55e;
-  padding: 5px 10px;
+  background: #ecfdf5;
+  color: #059669;
+  padding: 4px 8px;
   border-radius: 6px;
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   text-transform: uppercase;
+  border: 1px solid #d1fae5;
+}
+
+/* Dark mode adjustment for bestseller tag */
+[data-theme="dark"] .bestseller-tag {
+  background: rgba(5, 150, 105, 0.15);
+  border-color: rgba(5, 150, 105, 0.3);
 }
 
 /* Price Row */
@@ -219,7 +204,7 @@
 /* Add Button */
 .add-btn {
   width: 100%;
-  background: linear-gradient(135deg, #0071e3, #0077ed);
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
   color: white;
   border: none;
   padding: 14px 20px;
@@ -231,6 +216,7 @@
   transition: all 0.25s ease;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
 }
 
 .add-btn::before {
@@ -243,16 +229,16 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.2),
     transparent
   );
   transition: left 0.4s ease;
 }
 
 .add-btn:hover {
-  background: linear-gradient(135deg, #0077ed, #008bff);
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 113, 227, 0.35);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
 }
 
 .add-btn:hover::before {
@@ -266,16 +252,16 @@
 /* Responsive */
 @media (max-width: 768px) {
   .product-card {
-    padding: 20px;
+    padding: 18px;
   }
 
   .image-container {
-    padding: 24px;
+    padding: 20px;
     min-height: 180px;
   }
 
   .product-image {
-    height: 130px;
+    height: 150px;
   }
 
   .price {
@@ -285,9 +271,9 @@
 
 @media (max-width: 480px) {
   .discount-badge {
-    top: 16px;
-    left: 16px;
-    padding: 6px 12px;
+    top: 14px;
+    left: 14px;
+    padding: 5px 10px;
     font-size: 0.65rem;
   }
 }

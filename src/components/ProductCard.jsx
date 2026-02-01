@@ -3,6 +3,7 @@ import "./ProductCard.css";
 export default function ProductCard({
   image,
   name,
+  category,
   price,
   originalPrice,
   discount,
@@ -31,6 +32,9 @@ export default function ProductCard({
 
       {/* Content */}
       <div className="card-content">
+        {/* Category Badge */}
+        {category && <span className="category-badge">{category}</span>}
+        
         <h3 className="product-name">{name}</h3>
 
         {/* Rating */}
