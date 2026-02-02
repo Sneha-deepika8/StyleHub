@@ -138,7 +138,7 @@ function App() {
         <div className="nav-container">
           <a href="/" className="logo">
             <span className="logo-icon">◆</span>
-            StyleHub
+            FashionHub
           </a>
 
           <ul className="nav-links">
