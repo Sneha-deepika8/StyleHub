@@ -9,7 +9,21 @@ function App() {
 
   // State
   // Cart - array of products in cart
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState(() => {
+    const savedCart = localStorage.getItem("stylehub-cart");
+    if (savedCart) {
+      try {
+        return JSON.parse(savedCart);
+      } catch (error) {
+        console.error("Problem!!!", error);
+        return [];
+      }
+    }
+    return [];
+  });
+  useEffect(() => {
+    localStorage.setItem("stylehub-cart", JSON.stringify(cartItems));
+  }, [cartItems]);
 
   // Wishlist - array of product IDs that are wishlisted
   const [wishlist, setWishlist] = useState([]);
